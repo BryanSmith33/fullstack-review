@@ -1,2 +1,2 @@
-select * from user
-where email = ${email};
+select * from users
+where email = ${email}

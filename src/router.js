@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './Components/Home'
-import Login from './Components/Login'
 import Details from './Components/Details'
+import Login from './Components/Login/Login'
 
 export default (
 	<Switch>

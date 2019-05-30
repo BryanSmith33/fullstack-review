@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { updateUser } from '../redux/user_reducer'
-import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
-class Login extends Component {
+class LoginForm extends Component {
 	constructor() {
 		super()
 		this.state = {
@@ -11,16 +10,6 @@ class Login extends Component {
 			password: ''
 		}
 	}
-
-	componentDidMount() {
-		axios.get('/auth/user').then((res) => {
-			console.log(res.data)
-			this.props.updateUser(res.data)
-			this.props.history.push('/details')
-		})
-		this.props.id && this.props.history.push('/details')
-	}
-
 	handleLoginInfoUpdate = (e) => {
 		this.setState({
 			[e.target.name]: e.target.value
@@ -41,11 +30,10 @@ class Login extends Component {
 		e.target.username.value = ''
 		e.target.password.value = ''
 	}
-
 	render() {
 		return (
-			<div>
-				<h1>Log In</h1>
+			<>
+				<h1>Login</h1>
 				<form onSubmit={this.handleUserLogin}>
 					<input
 						type='text'
@@ -54,29 +42,16 @@ class Login extends Component {
 						onChange={this.handleLoginInfoUpdate}
 					/>
 					<input
-						type='text'
+						type='password'
 						name='password'
 						placeholder='password'
 						onChange={this.handleLoginInfoUpdate}
 					/>
-					<button>Log in</button>
+					<button>Log In</button>
 				</form>
-			</div>
+			</>
 		)
 	}
 }
 
-const mapStateToProps = (reduxState) => {
-	return {
-		id: reduxState.id
-	}
-}
-
-const mapDispatchToProps = {
-	updateUser
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(Login)
+export default withRouter(LoginForm)

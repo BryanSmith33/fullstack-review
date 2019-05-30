@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { updateUser, clearUser } from '../redux/userReducer'
 import { connect } from 'react-redux'
-import { updateUser } from '../redux/user_reducer'
 
 class Details extends Component {
 	componentDidMount() {
@@ -15,14 +15,22 @@ class Details extends Component {
 			})
 	}
 
+	handleUserLogout = () => {
+		axios.get('/auth/logout').then((res) => {
+			this.props.clearUser()
+			this.props.history.push('/')
+		})
+	}
+
 	render() {
 		return (
 			<div>
 				<h1>Details</h1>
 				{this.props.firstname && (
 					<>
-						<h3>Name: {this.props.firstname}</h3>
-						<h3>Balance: ${this.props.balance}</h3>
+						<h3>{this.props.firstname}</h3>
+						<h4>${this.props.balance}</h4>
+						<button onClick={this.handleUserLogout}>Logout</button>
 					</>
 				)}
 			</div>
@@ -30,7 +38,7 @@ class Details extends Component {
 	}
 }
 
-const mapStateToProps = (reduxState) => {
+function mapStateToProps(reduxState) {
 	return {
 		firstname: reduxState.firstname,
 		balance: reduxState.balance
@@ -38,7 +46,8 @@ const mapStateToProps = (reduxState) => {
 }
 
 const mapDispatchToProps = {
-	updateUser
+	updateUser,
+	clearUser
 }
 
 export default connect(
